@@ -1,5 +1,48 @@
-<footer class="footer bg-dark py-3 mt-auto">
+<footer class="footer py-4 mt-auto" style="background: linear-gradient(135deg, #0a2e5c, #063970)">
   <div class="container">
-    <span class="text-secondary">&copy;Planilla App Tech Dev S.A. de C.V.</span>
+    <div class="row align-items-center">
+      <div class="col-md-6">
+        <span class="text-light">
+          <i class="fas fa-laptop-code me-2"></i>
+          &copy; 2025 Planilla App Tech Dev S.A. de C.V.
+        </span>
+      </div>
+      <div class="col-md-6 text-md-end mt-3 mt-md-0">
+        <ul class="list-inline mb-0">
+          <li class="list-inline-item">
+            <a href="#" class="text-light text-decoration-none">
+              <i class="fas fa-shield-alt"></i> Privacidad
+            </a>
+          </li>
+          <li class="list-inline-item ms-3">
+            <a href="#" class="text-light text-decoration-none">
+              <i class="fas fa-file-alt"></i> Términos
+            </a>
+          </li>
+          <li class="list-inline-item ms-3">
+            <a href="#" class="text-light text-decoration-none">
+              <i class="fas fa-question-circle"></i> Soporte
+            </a>
+          </li>
+        </ul>
+      </div>
+    </div>
   </div>
 </footer>
+
+<style>
+  .footer {
+    box-shadow: 0 -5px 15px rgba(0, 0, 0, 0.1);
+  }
+  
+  .footer .list-inline-item a {
+    transition: all 0.3s ease;
+    padding: 5px 10px;
+    border-radius: 20px;
+  }
+  
+  .footer .list-inline-item a:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+    transform: translateY(-2px);
+  }
+</style>
