@@ -1,95 +1,151 @@
 <!DOCTYPE html>
 <html>
-  <!-- PARTIALS PARTIALS PARTIALS PARTIALS PARTIALS PARTIALS -->
   <!-- prettier-ignore -->
   <%- include("../partials/head") %>
   <%- include("../partials/body-open") %>
   <%- include("../partials/navbar") %>
   <%- include("../partials/main-open") %>
-  <!-- PARTIALS PARTIALS PARTIALS PARTIALS PARTIALS PARTIALS -->
 
   <div class="container py-5">
     <div class="row justify-content-center">
       <div class="col-md-6">
-        <div class="card border-0 shadow-sm rounded-3 overflow-hidden">
-          <div class="card-header text-white p-4" style="background-color: #004080;">
-            <h3 class="mb-0 text-center">
-              <i class="fas fa-user-circle me-2"></i> Iniciar Sesión
-            </h3>
+        <div class="login-container">
+          <div class="login-header text-center mb-4">
+            <h2 class="fw-bold">Bienvenido</h2>
+            <p class="text-muted">Ingrese sus credenciales para continuar</p>
           </div>
-          <div class="card-body p-4">
-            <form class="needs-validation" action="/login" method="POST" novalidate>
-              <div class="mb-4">
-                <label for="username" class="form-label fw-bold">
-                  <i class="fas fa-user me-2"></i>Usuario
-                </label>
+          
+          <form class="needs-validation" action="/login" method="POST" novalidate>
+            <div class="mb-4">
+              <label for="username" class="form-label">Usuario</label>
+              <div class="input-group input-group-lg">
+                <span class="input-group-text bg-white border-end-0">
+                  <i class="fas fa-user text-muted"></i>
+                </span>
                 <input
                   required
-                  placeholder="Ingrese su nombre de usuario"
+                  placeholder="Nombre de usuario"
                   name="username"
                   id="username"
-                  class="form-control form-control-lg rounded-pill border-0 bg-light"
+                  class="form-control border-start-0"
                 />
-                <div class="valid-feedback">¡Correcto!</div>
-                <div class="invalid-feedback">Por favor ingrese su nombre de usuario.</div>
               </div>
-              
-              <div class="mb-4">
-                <label for="password" class="form-label fw-bold">
-                  <i class="fas fa-lock me-2"></i>Contraseña
-                </label>
-                <div class="input-group">
-                  <input
-                    required
-                    placeholder="Ingrese su contraseña"
-                    name="password"
-                    id="password"
-                    type="password"
-                    class="form-control form-control-lg rounded-pill border-0 bg-light"
-                  />
-                  <button class="btn position-absolute end-0 top-50 translate-middle-y bg-transparent border-0 text-muted" type="button" id="togglePassword">
-                    <i class="fas fa-eye"></i>
-                  </button>
-                </div>
-                <div class="valid-feedback">¡Correcto!</div>
-                <div class="invalid-feedback">Por favor ingrese su contraseña.</div>
+              <div class="invalid-feedback">Por favor ingrese su nombre de usuario.</div>
+            </div>
+            
+            <div class="mb-4">
+              <div class="d-flex justify-content-between">
+                <label for="password" class="form-label">Contraseña</label>
+                <a href="/forgot-password" class="text-decoration-none small">¿Olvidó su contraseña?</a>
               </div>
-              
-              <div class="form-check mb-4">
-                <input class="form-check-input" type="checkbox" value="" id="rememberMe">
-                <label class="form-check-label" for="rememberMe">
-                  Recordarme en este dispositivo
-                </label>
-              </div>
-              
-              <div class="d-grid gap-2">
-                <button class="btn btn-primary btn-lg rounded-pill shadow-sm" style="background-color: #004080; border: none;" type="submit">
-                  <i class="fas fa-sign-in-alt me-2"></i> Iniciar Sesión
+              <div class="input-group input-group-lg">
+                <span class="input-group-text bg-white border-end-0">
+                  <i class="fas fa-lock text-muted"></i>
+                </span>
+                <input
+                  required
+                  placeholder="Contraseña"
+                  name="password"
+                  id="password"
+                  type="password"
+                  class="form-control border-start-0"
+                />
+                <button class="btn bg-white border border-start-0" type="button" id="togglePassword">
+                  <i class="fas fa-eye text-muted"></i>
                 </button>
               </div>
-            </form>
-          </div>
-          <div class="card-footer bg-light text-center py-3">
-            <span class="text-muted">¿No tiene una cuenta?</span>
-            <a href="/register" class="text-primary fw-bold text-decoration-none" style="color: #004080 !important;">Regístrese aquí</a>
-          </div>
+              <div class="invalid-feedback">Por favor ingrese su contraseña.</div>
+            </div>
+            
+            <div class="form-check mb-4">
+              <input class="form-check-input" type="checkbox" value="" id="rememberMe">
+              <label class="form-check-label" for="rememberMe">
+                Mantener sesión iniciada
+              </label>
+            </div>
+            
+            <div class="d-grid">
+              <button class="btn btn-lg fw-bold py-3 login-btn" type="submit">
+                Iniciar Sesión
+              </button>
+            </div>
+            
+            <div class="text-center mt-4">
+              <span>¿No tiene una cuenta?</span>
+              <a href="/register" class="text-decoration-none fw-bold ms-1">Crear cuenta</a>
+            </div>
+          </form>
         </div>
       </div>
     </div>
   </div>
 
-  <!-- PARTIALS PARTIALS PARTIALS PARTIALS PARTIALS PARTIALS -->
+  <style>
+    .login-container {
+      background-color: #fff;
+      border-radius: 12px;
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
+      padding: 40px;
+    }
+    
+    .login-header h2 {
+      color: #333;
+      font-size: 28px;
+    }
+    
+    .input-group-text {
+      border-radius: 8px 0 0 8px;
+    }
+    
+    .form-control {
+      border-radius: 0 8px 8px 0;
+      height: 52px;
+      font-size: 16px;
+    }
+    
+    .form-control:focus, .input-group-text:focus {
+      box-shadow: none;
+      border-color: #004080;
+    }
+    
+    .login-btn {
+      background-color: #004080;
+      color: white;
+      border-radius: 8px;
+      transition: all 0.3s ease;
+    }
+    
+    .login-btn:hover {
+      background-color: #003366;
+      transform: translateY(-2px);
+    }
+    
+    .form-check-input:checked {
+      background-color: #004080;
+      border-color: #004080;
+    }
+    
+    a {
+      color: #004080;
+    }
+    
+    /* Responsive adjustments */
+    @media (max-width: 768px) {
+      .login-container {
+        padding: 30px 20px;
+      }
+    }
+  </style>
+
   <!-- prettier-ignore -->
   <%- include("../partials/main-close") %>
-  <!-- PARTIALS PARTIALS PARTIALS PARTIALS PARTIALS PARTIALS -->
+  
   <script>
     (() => {
       "use strict";
 
-      // Fetch all the forms we want to apply custom Bootstrap validation styles to
+      // Form validation
       const forms = document.querySelectorAll(".needs-validation");
-
-      // Loop over them and prevent submission
       Array.from(forms).forEach((form) => {
         form.addEventListener(
           "submit",
@@ -98,7 +154,6 @@
               event.preventDefault();
               event.stopPropagation();
             }
-
             form.classList.add("was-validated");
           },
           false
@@ -117,9 +172,8 @@
       });
     })();
   </script>
-  <!-- PARTIALS PARTIALS PARTIALS PARTIALS PARTIALS PARTIALS -->
+  
   <!-- prettier-ignore -->
   <%- include("../partials/footer") %>
   <%- include("../partials/body-close") %>
-  <!-- PARTIALS PARTIALS PARTIALS PARTIALS PARTIALS PARTIALS -->
 </html>

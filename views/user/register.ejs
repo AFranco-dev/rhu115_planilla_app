@@ -1,118 +1,173 @@
 <!DOCTYPE html>
 <html>
-  <!-- PARTIALS PARTIALS PARTIALS PARTIALS PARTIALS PARTIALS -->
   <!-- prettier-ignore -->
   <%- include("../partials/head") %>
   <%- include("../partials/body-open") %>
   <%- include("../partials/navbar") %>
   <%- include("../partials/main-open") %>
   <%- include("../partials/flash-success") %>
-  <!-- PARTIALS PARTIALS PARTIALS PARTIALS PARTIALS PARTIALS -->
 
   <div class="container py-5">
     <div class="row justify-content-center">
-      <div class="col-md-6">
-        <div class="card border-0 shadow-sm rounded-3 overflow-hidden">
-          <div class="card-header text-white p-4" style="background-color: #004080;">
-            <h3 class="mb-0 text-center">
-              <i class="fas fa-user-plus me-2"></i> Crear Nuevo Usuario
-            </h3>
+      <div class="col-md-7">
+        <div class="register-container">
+          <div class="register-header text-center mb-4">
+            <h2 class="fw-bold">Crear cuenta</h2>
+            <p class="text-muted">Complete el formulario para registrarse</p>
           </div>
-          <div class="card-body p-4">
-            <form class="needs-validation" action="/register" method="POST" novalidate>
-              <div class="mb-4">
-                <label for="username" class="form-label fw-bold">
-                  <i class="fas fa-user me-2"></i>Nombre de Usuario
-                </label>
+          
+          <form class="needs-validation" action="/register" method="POST" novalidate>
+            <div class="mb-3">
+              <label for="username" class="form-label">Nombre de usuario</label>
+              <div class="input-group">
+                <span class="input-group-text bg-white border-end-0">
+                  <i class="fas fa-user text-muted"></i>
+                </span>
                 <input
                   required
                   placeholder="Ingrese su nombre de usuario"
                   name="username"
                   id="username"
-                  class="form-control form-control-lg rounded-pill border-0 bg-light"
+                  class="form-control border-start-0"
                 />
-                <div class="valid-feedback">¡Correcto!</div>
-                <div class="invalid-feedback">Por favor ingrese un nombre de usuario válido.</div>
               </div>
-              
-              <div class="mb-4">
-                <label for="email" class="form-label fw-bold">
-                  <i class="fas fa-envelope me-2"></i>Correo Electrónico
-                </label>
+              <div class="invalid-feedback">Por favor ingrese un nombre de usuario válido.</div>
+            </div>
+            
+            <div class="mb-3">
+              <label for="email" class="form-label">Correo electrónico</label>
+              <div class="input-group">
+                <span class="input-group-text bg-white border-end-0">
+                  <i class="fas fa-envelope text-muted"></i>
+                </span>
                 <input
                   required
                   placeholder="ejemplo@correo.com"
                   name="email"
                   id="email"
                   type="email"
-                  class="form-control form-control-lg rounded-pill border-0 bg-light"
+                  class="form-control border-start-0"
                 />
-                <div class="valid-feedback">¡Correcto!</div>
-                <div class="invalid-feedback">Por favor ingrese un correo electrónico válido.</div>
               </div>
-              
-              <div class="mb-4">
-                <label for="password" class="form-label fw-bold">
-                  <i class="fas fa-lock me-2"></i>Contraseña
-                </label>
-                <div class="input-group">
-                  <input
-                    required
-                    placeholder="Cree una contraseña segura"
-                    name="password"
-                    id="password"
-                    type="password"
-                    class="form-control form-control-lg rounded-pill border-0 bg-light"
-                  />
-                  <button class="btn position-absolute end-0 top-50 translate-middle-y bg-transparent border-0 text-muted" type="button" id="togglePassword">
-                    <i class="fas fa-eye"></i>
-                  </button>
-                </div>
-                <div class="valid-feedback">¡Correcto!</div>
-                <div class="invalid-feedback">Por favor cree una contraseña.</div>
-                <div class="form-text mt-2">
-                  <i class="fas fa-info-circle me-1"></i> La contraseña debe tener al menos 8 caracteres.
-                </div>
+              <div class="invalid-feedback">Por favor ingrese un correo electrónico válido.</div>
+            </div>
+            
+            <div class="mb-3">
+              <label for="password" class="form-label">Contraseña</label>
+              <div class="input-group">
+                <span class="input-group-text bg-white border-end-0">
+                  <i class="fas fa-lock text-muted"></i>
+                </span>
+                <input
+                  required
+                  placeholder="Cree una contraseña segura"
+                  name="password"
+                  id="password"
+                  type="password"
+                  class="form-control border-start-0"
+                />
+                <button class="btn bg-white border border-start-0" type="button" id="togglePassword">
+                  <i class="fas fa-eye text-muted"></i>
+                </button>
               </div>
-              
-              <div class="form-check mb-4">
+              <div class="form-text mt-1">
+                <small><i class="fas fa-info-circle"></i> La contraseña debe tener al menos 8 caracteres.</small>
+              </div>
+              <div class="invalid-feedback">Por favor cree una contraseña.</div>
+            </div>
+            
+            <div class="mb-4">
+              <div class="form-check">
                 <input class="form-check-input" type="checkbox" value="" id="agreeTerms" required>
                 <label class="form-check-label" for="agreeTerms">
-                  Acepto los <a href="#" class="text-decoration-none" style="color: #004080;">términos y condiciones</a>
+                  Acepto los <a href="#" class="text-decoration-none register-link">términos y condiciones</a>
                 </label>
                 <div class="invalid-feedback">
                   Debe aceptar los términos y condiciones para continuar.
                 </div>
               </div>
-              
-              <div class="d-grid gap-2">
-                <button class="btn btn-primary btn-lg rounded-pill shadow-sm" style="background-color: #004080; border: none;" type="submit">
-                  <i class="fas fa-user-check me-2"></i> Crear Cuenta
-                </button>
-              </div>
-            </form>
-          </div>
-          <div class="card-footer bg-light text-center py-3">
-            <span class="text-muted">¿Ya tiene una cuenta?</span>
-            <a href="/login" class="text-primary fw-bold text-decoration-none" style="color: #004080 !important;">Inicie sesión aquí</a>
-          </div>
+            </div>
+            
+            <div class="d-grid">
+              <button class="btn btn-lg fw-bold py-2 register-btn" type="submit">
+                Crear cuenta
+              </button>
+            </div>
+            
+            <div class="text-center mt-4">
+              <span>¿Ya tiene una cuenta?</span>
+              <a href="/login" class="text-decoration-none fw-bold register-link ms-1">Iniciar sesión</a>
+            </div>
+          </form>
         </div>
       </div>
     </div>
   </div>
 
-  <!-- PARTIALS PARTIALS PARTIALS PARTIALS PARTIALS PARTIALS -->
-  <!-- prettier-ignore -->
+  <style>
+    .register-container {
+      background-color: #fff;
+      border-radius: 10px;
+      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.06);
+      padding: 40px;
+    }
+    
+    .register-header h2 {
+      color: #333;
+    }
+    
+    .input-group-text {
+      border-radius: 6px 0 0 6px;
+    }
+    
+    .form-control {
+      border-radius: 0 6px 6px 0;
+    }
+    
+    .form-control:focus, 
+    .input-group-text:focus, 
+    .btn:focus {
+      box-shadow: none;
+      border-color: #004080;
+    }
+    
+    .register-btn {
+      background-color: #004080;
+      color: white;
+      border-radius: 6px;
+      transition: all 0.3s ease;
+    }
+    
+    .register-btn:hover {
+      background-color: #003366;
+      transform: translateY(-1px);
+    }
+    
+    .form-check-input:checked {
+      background-color: #004080;
+      border-color: #004080;
+    }
+    
+    .register-link {
+      color: #004080;
+    }
+    
+    /* Responsive adjustments */
+    @media (max-width: 768px) {
+      .register-container {
+        padding: 30px 20px;
+      }
+    }
+  </style>
+
+
   <%- include("../partials/main-close") %>
-  <!-- PARTIALS PARTIALS PARTIALS PARTIALS PARTIALS PARTIALS -->
+  
   <script>
     (() => {
       "use strict";
 
-      // Fetch all the forms we want to apply custom Bootstrap validation styles to
       const forms = document.querySelectorAll(".needs-validation");
-
-      // Loop over them and prevent submission
       Array.from(forms).forEach((form) => {
         form.addEventListener(
           "submit",
@@ -121,7 +176,6 @@
               event.preventDefault();
               event.stopPropagation();
             }
-
             form.classList.add("was-validated");
           },
           false
@@ -140,9 +194,8 @@
       });
     })();
   </script>
-  <!-- PARTIALS PARTIALS PARTIALS PARTIALS PARTIALS PARTIALS -->
+  
   <!-- prettier-ignore -->
   <%- include("../partials/footer") %>
   <%- include("../partials/body-close") %>
-  <!-- PARTIALS PARTIALS PARTIALS PARTIALS PARTIALS PARTIALS -->
 </html>
