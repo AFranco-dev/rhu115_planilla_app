@@ -1,0 +1,29 @@
+# PlanillaApp
+
+## Pasos para la configuración e instalación del proyecto
+
+### Requisitos previos
+
+1. Asegúrate de tener instalado:
+
+   - [Node.js](https://nodejs.org/) (versión 14 o superior)
+   - [npm](https://www.npmjs.com/) o [yarn](https://yarnpkg.com/)
+   - [Git](https://git-scm.com/)
+   - [MongoDB]
+
+2. Clona el repositorio en tu máquina local:
+   ```bash
+   git clone <URL_DEL_REPOSITORIO>
+   cd planillaapp
+   ```
+
+### Instalación
+
+1. Instala las dependencias del proyecto:
+   ```bash
+   npm install
+   ```
+   o si usas Yarn:
+   ```bash
+   yarn install
+   ```

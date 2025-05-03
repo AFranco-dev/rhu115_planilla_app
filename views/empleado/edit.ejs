@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html>
+  <!-- prettier-ignore -->
+  <%- include("../partials/head") %>
+  <%- include("../partials/body-open") %>
+  <%- include("../partials/navbar") %>
+  <%- include("../partials/main-open") %>
+  <!-- <main class="container mt-5"> -->
+  <h1 class="mb-3">
+    Editar Empleado <%= empleado.nombre %> <%= empleado.apellido %>
+  </h1>
+  <form
+    class="needs-validation"
+    action="/empleados/<%= empleado.id %>?_method=PUT"
+    method="POST"
+    novalidate
+  >
+    <div class="mb-3">
+      <label for="nombre" class="form-label">Nombre:</label
+      ><input
+        required
+        placeholder="Nombre"
+        name="nombre"
+        id="nombre"
+        class="form-control"
+        value="<%= empleado.nombre %>"
+      />
+      <div class="valid-feedback">¡Correcto!</div>
+      <div class="invalid-feedback">Por favor coloca un nombre.</div>
+    </div>
+    <div class="mb-3">
+      <label for="apellido" class="form-label">Apellido:</label
+      ><input
+        required
+        placeholder="Apellido"
+        name="apellido"
+        id="apellido"
+        class="form-control"
+        value="<%= empleado.apellido %>"
+      />
+      <div class="valid-feedback">¡Correcto!</div>
+      <div class="invalid-feedback">Por favor coloca un apellido.</div>
+    </div>
+    <div class="mb-3">
+      <label for="dui" class="form-label">DUI:</label
+      ><input
+        required
+        placeholder="DUI"
+        name="dui"
+        id="dui"
+        class="form-control"
+        value="<%= empleado.dui %>"
+      />
+      <div class="valid-feedback">¡Correcto!</div>
+      <div class="invalid-feedback">Por favor colocar DUI con guión.</div>
+    </div>
+    <div class="mb-3">
+      <label for="price" class="form-label">Salario mensual:</label
+      ><input
+        required
+        placeholder="500"
+        name="salarioMensual"
+        id="salarioMensual"
+        type="number"
+        class="form-control"
+        value="<%= empleado.salarioMensual %>"
+      />
+      <div class="valid-feedback">¡Correcto!</div>
+      <div class="invalid-feedback">
+        Por favor ingresa un salario mensual correcto.
+      </div>
+    </div>
+    <div class="mb-3">
+      <label for="fechaIngreso" class="form-label">Fecha Ingreso:</label
+      ><input
+        required
+        name="fechaIngreso"
+        id="fechaIngreso"
+        type="date"
+        class="form-control"
+        value="<%= empleado.fechaIngreso ? empleado.fechaIngreso.toISOString().split('T')[0] : '' %>"
+      />
+      <div class="valid-feedback">¡Correcto!</div>
+      <div class="invalid-feedback">Por favor ingresa una fecha correcta.</div>
+    </div>
+    <button class="btn btn-primary" type="submit">Editar Empleado</button>
+  </form>
+  <%- include("../partials/main-close") %>
+  <!-- </main> -->
+  <script>
+    (() => {
+      "use strict";
+
+      // Fetch all the forms we want to apply custom Bootstrap validation styles to
+      const forms = document.querySelectorAll(".needs-validation");
+
+      // Loop over them and prevent submission
+      Array.from(forms).forEach((form) => {
+        form.addEventListener(
+          "submit",
+          (event) => {
+            if (!form.checkValidity()) {
+              event.preventDefault();
+              event.stopPropagation();
+            }
+
+            form.classList.add("was-validated");
+          },
+          false
+        );
+      });
+    })();
+  </script>
+  <!-- prettier-ignore -->
+  <%- include("../partials/footer") %>
+  <%- include("../partials/body-close") %>
+</html>

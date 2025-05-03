@@ -1,0 +1,48 @@
+<nav class="navbar sticky-top navbar-expand-md navbar-dark bg-dark">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="/">Tech Dev</a>
+    <button
+      class="navbar-toggler"
+      type="button"
+      data-bs-toggle="collapse"
+      data-bs-target="#navbarSupportedContent"
+      aria-controls="navbarSupportedContent"
+      aria-expanded="false"
+      aria-label="Toggle navigation"
+    >
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav me-auto mb-2 mb-md-0">
+        <% if (locals.currentUser) { %>
+        <li class="nav-item">
+          <a class="nav-link" href="/empleados">Empleados</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/empleados/calculator">Calculadora</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/empleados/create">Crear Empleado</a>
+        </li>
+        <% } %>
+      </ul>
+      <ul class="navbar-nav mb-2 mb-md-0">
+        <% if (!locals.currentUser) { %>
+        <!-- <li class="nav-item ms-auto">
+          <a class="nav-link" href="/register">Register</a>
+        </li> -->
+        <li class="nav-item">
+          <a class="nav-link" href="/login">Iniciar sesión</a>
+        </li>
+        <% } else { %>
+        <li class="nav-item">
+          <a class="nav-link" href="/register">Crear Otro Usuario</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/logout">Logout</a>
+        </li>
+        <% } %>
+      </ul>
+    </div>
+  </div>
+</nav>

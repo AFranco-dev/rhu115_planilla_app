@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+  <!-- prettier-ignore -->
+  <%- include("../partials/head") %>
+  <%- include("../partials/body-open") %>
+  <%- include("../partials/navbar") %>
+  <!-- <main
+  class="container my-5 d-flex flex-column align-items-center justify-content-center"
+  > -->
+  <%- include("../partials/main-open") %>
+  <div class="d-flex flex-column align-items-center justify-content-center">
+    <div class="card" style="width: 80%; max-width: 400px">
+      <div class="card-body">
+        <h5 class="card-title">
+          <strong><%= empleado.nombre %> <%= empleado.apellido %></strong>
+        </h5>
+      </div>
+      <ul class="list-group list-group-flush">
+        <li class="list-group-item">DUI: <%= empleado.dui %></li>
+        <li class="list-group-item">
+          Salario Mensual: <%= empleado.salarioMensual %>
+        </li>
+        <li class="list-group-item">
+          Fecha Ingreso: <%= empleado.fechaIngreso.toLocaleDateString("es-ES", {
+          day: '2-digit', month: '2-digit', year: 'numeric' }) %>
+        </li>
+        <li class="list-group-item d-flex flex-column justify-content-between">
+          <div
+            class="gap-1 p-1 d-flex align-items-center justify-content-center"
+          >
+            <a
+              class="mt-auto btn btn-success"
+              href="/empleados/<%= empleado.id %>/edit"
+            >
+              Editar
+            </a>
+            <form
+              action="/empleados/<%= empleado.id %>?_method=DELETE"
+              method="post"
+            >
+              <button class="btn btn-danger" type="submit">Eliminar</button>
+            </form>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </div>
+  <%- include("../partials/main-close") %>
+  <!-- </main> -->
+  <!-- prettier-ignore -->
+  <%- include("../partials/footer") %>
+  <%- include("../partials/body-close") %>
+</html>

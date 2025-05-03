@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+  <!-- prettier-ignore -->
+  <%- include("../partials/head") %>
+  <%- include("../partials/body-open") %>
+  <%- include("../partials/navbar") %>
+  <%- include("../partials/main-open") %>
+  <ul
+    class="list-unstyled gap-1 mw-100 mb-3 p-3 d-flex align-items-center justify-content-center flex-wrap"
+  >
+    <% for( const empleado of empleados ) { %>
+    <li class="mb-3">
+      <div class="card" style="width: 300px; height: 300px">
+        <div class="card-body d-flex flex-column justify-content-between">
+          <div>
+            <h5 class="card-title">
+              <strong><%= empleado.nombre %> <%= empleado.apellido %></strong>
+            </h5>
+          </div>
+        </div>
+        <ul class="list-group list-group-flush">
+          <li class="list-group-item">DUI: <%= empleado.dui %></li>
+          <li class="list-group-item">
+            Salario Mensual: <%= empleado.salarioMensual %>
+          </li>
+          <li class="list-group-item">
+            Fecha Ingreso: <%= empleado.fechaIngreso.toLocaleDateString("es-ES",
+            { day: '2-digit', month: '2-digit', year: 'numeric' }) %>
+          </li>
+          <li
+            class="list-group-item d-flex flex-column justify-content-between"
+          >
+            <div
+              class="gap-1 p-1 d-flex align-items-center justify-content-center"
+            >
+              <a
+                class="mt-auto btn btn-primary"
+                href="/empleados/<%= empleado.id %>"
+              >
+                Detalles
+              </a>
+              <form
+                action="/empleados/<%= empleado.id %>?_method=DELETE"
+                method="post"
+              >
+                <button class="btn btn-danger" type="submit">Eliminar</button>
+              </form>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </li>
+    <% } %>
+  </ul>
+  <%- include("../partials/main-close") %> <%- include("../partials/footer") %>
+  <%- include("../partials/body-close") %>
+</html>

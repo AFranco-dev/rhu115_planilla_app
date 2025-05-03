@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html>
+  <%- include("../partials/head") %> <%- include("../partials/body-open") %> <%-
+  include("../partials/navbar") %> <%- include("../partials/main-open") %>
+
+  <div class="container my-4" style="max-width: 100%">
+    <h2 class="text-center">Listado de Empleados</h2>
+    <div class="d-flex flex-row p-3 justify-content-center">
+      <div class="text-center">
+        <button class="btn btn-success me-1" onclick="exportarCSV()">
+          Exportar a CSV
+        </button>
+      </div>
+      <div class="text-center">
+        <button class="btn btn-secondary me-1" onclick="actualizarTabla()">
+          Actualizar Tabla
+        </button>
+        <button id="toggle-aguinaldo" class="btn btn-secondary">
+          Marcar Aguinaldo
+        </button>
+      </div>
+    </div>
+    <div style="max-width: 100%; overflow-x: scroll">
+      <table
+        class="table table-bordered"
+        style="max-width: 100%; overflow-x: scroll"
+      >
+        <thead class="table-light">
+          <tr>
+            <th>Nombre</th>
+            <th>Apellido</th>
+            <th>DUI</th>
+            <th>Salario Mensual</th>
+            <th>Fecha Ingreso</th>
+            <th>ISSS Patronal</th>
+            <th>ISSS Empleado</th>
+            <th>AFP Patronal</th>
+            <th>AFP Empleado</th>
+            <th>Días Vacaciones</th>
+            <th>Bono Vacaciones</th>
+            <th>Renta</th>
+            <th>¿Aguinaldo?</th>
+            <th>Aguinaldo</th>
+            <th>Salario Líquido</th>
+            <th>Acciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% for(const empleado of empleados) { %>
+          <tr>
+            <td class="nombre"><%= empleado.nombre %></td>
+            <td class="apellido"><%= empleado.apellido %></td>
+            <td class="dui"><%= empleado.dui %></td>
+            <td class="salario-mensual">
+              $<%= empleado.salarioMensual.toFixed(2) %>
+            </td>
+            <td class="fecha-ingreso">
+              <%= empleado.fechaIngreso.toLocaleDateString("es-ES", { day:
+              '2-digit', month: '2-digit', year: 'numeric' }) %>
+            </td>
+
+            <td>
+              $<span class="isss-patronal"
+                ><%= empleado.isssPatronal(0).toFixed(2) %></span
+              >
+            </td>
+            <td>
+              $<span class="isss-empleado"
+                ><%= empleado.isssEmpleado(0).toFixed(2) %></span
+              >
+            </td>
+            <td>
+              $<span class="afp-patronal"
+                ><%= empleado.afpPatronal(0).toFixed(2) %></span
+              >
+            </td>
+            <td>
+              $<span class="afp-empleado"
+                ><%= empleado.afpAfiliado(0).toFixed(2) %></span
+              >
+            </td>
+            <td>
+              <input
+                type="number"
+                min="0"
+                value="0"
+                class="form-control dias-vacaciones"
+                data-id="<%= empleado.id %>"
+              />
+            </td>
+            <td>
+              $<span class="bono-vacaciones"
+                ><%= empleado.bonoVacaciones(0).toFixed(2) %></span
+              >
+            </td>
+            <td>
+              $<span class="renta"><%= empleado.renta(0).toFixed(2) %></span>
+            </td>
+            <td>
+              <input
+                type="checkbox"
+                class="aguinaldo-check"
+                data-id="<%= empleado.id %>"
+              />
+            </td>
+            <td>
+              $<span class="aguinaldo"
+                ><%= empleado.aguinaldo(false).toFixed(2) %></span
+              >
+            </td>
+            <td>
+              $<span class="salario-liquido"
+                ><%= empleado.salarioLiquido(0, false).toFixed(2) %></span
+              >
+            </td>
+            <td>
+              <a
+                href="/empleados/<%= empleado.id %>"
+                class="btn btn-primary btn-sm"
+                >Detalles</a
+              >
+              <form
+                action="/empleados/<%= empleado.id %>?_method=DELETE"
+                method="post"
+                style="display: inline"
+              >
+                <button class="btn btn-danger btn-sm" type="submit">
+                  Eliminar
+                </button>
+              </form>
+            </td>
+          </tr>
+          <% } %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <script>
+    // Función para alternar el estado de todos los checkboxes de "¿Aguinaldo?"
+    document
+      .getElementById("toggle-aguinaldo")
+      .addEventListener("click", () => {
+        const aguinaldoChecks = document.querySelectorAll(".aguinaldo-check");
+        const marcarTodos = Array.from(aguinaldoChecks).some(
+          (check) => !check.checked
+        );
+
+        aguinaldoChecks.forEach((check) => (check.checked = marcarTodos));
+        actualizarTabla();
+      });
+
+    // Función para actualizar la tabla al cambiar valores de días de vacaciones o aguinaldo
+    function actualizarTabla() {
+      const empleados = Array.from(document.querySelectorAll("tbody tr"));
+      console.log("EMPLEADOS", empleados);
+
+      empleados.forEach((row) => {
+        console.log("FILA", row);
+
+        console.log(row.querySelector(".salario-mensual"));
+        console.log(
+          row.querySelector(".salario-mensual").innerText.replace("$", "")
+        );
+        console.log(
+          parseFloat(
+            row.querySelector(".salario-mensual").innerText.replace("$", "")
+          )
+        );
+
+        const salarioMensual = parseFloat(
+          row.querySelector(".salario-mensual").innerText.replace("$", "")
+        );
+        const diasVacaciones = parseInt(
+          row.querySelector(".dias-vacaciones").value
+        );
+        const aguinaldoCheck = row.querySelector(".aguinaldo-check").checked;
+        const fechaIngreso = new Date(
+          row.querySelector(".fecha-ingreso").value
+        );
+
+        // Calcular el bono de vacaciones
+        const bonoVacaciones = calcularBonoVacaciones(
+          salarioMensual,
+          diasVacaciones
+        );
+
+        // Calcula valores en base a las funciones actualizadas y actualiza los campos
+        const isssPatronal = calcularISSSPatronal(salarioMensual);
+        const isssEmpleado = calcularISSSEmpleado(salarioMensual);
+        const afpPatronal = calcularAFPPatronal(salarioMensual);
+        const afpEmpleado = calcularAFPAfiliado(salarioMensual);
+        const renta = calcularRenta(
+          calcularSalarioAntesRenta(salarioMensual, isssEmpleado, afpEmpleado)
+        );
+        const aguinaldo = calcularAguinaldo(
+          salarioMensual,
+          fechaIngreso,
+          aguinaldoCheck
+        );
+        const salarioLiquido = calcularSalarioLiquido(
+          salarioMensual,
+          aguinaldoCheck,
+          fechaIngreso
+        );
+
+        // Actualizar la tabla con los valores calculados
+        row.querySelector(".isss-patronal").textContent =
+          isssPatronal.toFixed(2);
+        row.querySelector(".isss-empleado").textContent =
+          isssEmpleado.toFixed(2);
+        row.querySelector(".afp-patronal").textContent = afpPatronal.toFixed(2);
+        row.querySelector(".afp-empleado").textContent = afpEmpleado.toFixed(2);
+        row.querySelector(".bono-vacaciones").textContent =
+          bonoVacaciones.toFixed(2);
+        row.querySelector(".renta").textContent = renta.toFixed(2);
+        row.querySelector(".aguinaldo").textContent = aguinaldo.toFixed(2);
+        row.querySelector(".salario-liquido").textContent =
+          salarioLiquido.toFixed(2);
+      });
+    }
+
+    // Funciones de cálculo basadas en la lógica de los métodos de Mongoose
+
+    // Función para calcular el salario diario
+    function calcularSalarioDiario(salarioMensual) {
+      return salarioMensual / 30;
+    }
+
+    // Cálculo ISSS Patronal
+    function calcularISSSPatronal(salarioMensual) {
+      const topeISSS = 1000;
+      const tasaISSSPatronal = 0.075;
+      const salarioBase = Math.min(salarioMensual, topeISSS);
+      return parseFloat((salarioBase * tasaISSSPatronal).toFixed(2));
+    }
+
+    // Cálculo ISSS Empleado
+    function calcularISSSEmpleado(salarioMensual) {
+      const topeISSS = 1000;
+      const tasaISSSEmpleado = 0.03;
+      const salarioBase = Math.min(salarioMensual, topeISSS);
+      return parseFloat((salarioBase * tasaISSSEmpleado).toFixed(2));
+    }
+
+    // Cálculo AFP Patronal
+    function calcularAFPPatronal(salarioMensual) {
+      const tasaAFPPatronal = 0.0875;
+      return parseFloat((salarioMensual * tasaAFPPatronal).toFixed(2));
+    }
+
+    // Cálculo AFP Afiliado
+    function calcularAFPAfiliado(salarioMensual) {
+      const tasaAFPAfiliado = 0.0725;
+      return parseFloat((salarioMensual * tasaAFPAfiliado).toFixed(2));
+    }
+
+    // Cálculo del Bono de Vacaciones
+    function calcularBonoVacaciones(salarioMensual, diasVacaciones = 0) {
+      const salarioDiario = calcularSalarioDiario(salarioMensual);
+      const bonoPorDia = salarioDiario * 0.3;
+      diasVacaciones = Math.min(diasVacaciones, 15);
+      return parseFloat((bonoPorDia * diasVacaciones).toFixed(2));
+    }
+
+    // Salario antes de Renta
+    function calcularSalarioAntesRenta(
+      salarioMensual,
+      isssEmpleado,
+      afpEmpleado
+    ) {
+      return parseFloat(
+        (salarioMensual - isssEmpleado - afpEmpleado).toFixed(2)
+      );
+    }
+
+    // Cálculo de la Renta
+    function calcularRenta(salarioAntesRenta) {
+      let renta = 0;
+      if (salarioAntesRenta > 0 && salarioAntesRenta <= 472.0) {
+        renta = 0;
+      } else if (salarioAntesRenta > 472.0 && salarioAntesRenta <= 895.24) {
+        renta = (salarioAntesRenta - 472.0) * 0.1 + 17.67;
+      } else if (salarioAntesRenta > 895.24 && salarioAntesRenta <= 2038.1) {
+        renta = (salarioAntesRenta - 895.24) * 0.2 + 60.0;
+      } else if (salarioAntesRenta > 2038.1) {
+        renta = (salarioAntesRenta - 2038.1) * 0.3 + 288.57;
+      }
+      return parseFloat(renta.toFixed(2));
+    }
+
+    // Cálculo del Aguinaldo
+    function calcularAguinaldo(salarioMensual, fechaIngreso, aguinaldoCheck) {
+      if (!aguinaldoCheck) return 0;
+
+      const salarioDiario = calcularSalarioDiario(salarioMensual);
+      const fechaActual = new Date();
+      const antiguedadEnAnios =
+        fechaActual.getFullYear() - fechaIngreso.getFullYear();
+      const mesesTrabajados =
+        fechaActual.getMonth() -
+        fechaIngreso.getMonth() +
+        antiguedadEnAnios * 12;
+
+      let diasAguinaldo;
+      if (antiguedadEnAnios < 1) {
+        diasAguinaldo = 15 * (mesesTrabajados / 12);
+      } else if (antiguedadEnAnios >= 1 && antiguedadEnAnios < 3) {
+        diasAguinaldo = 15;
+      } else if (antiguedadEnAnios >= 3 && antiguedadEnAnios < 10) {
+        diasAguinaldo = 19;
+      } else {
+        diasAguinaldo = 21;
+      }
+
+      return parseFloat((salarioDiario * diasAguinaldo).toFixed(2));
+    }
+
+    // Cálculo del Salario Líquido
+    function calcularSalarioLiquido(salarioMensual, fechaIngreso) {
+      const isssEmpleado = calcularISSSEmpleado(salarioMensual);
+      const afpEmpleado = calcularAFPAfiliado(salarioMensual);
+      const salarioAntesRenta = calcularSalarioAntesRenta(
+        salarioMensual,
+
+        isssEmpleado,
+        afpEmpleado
+      );
+      const renta = calcularRenta(salarioAntesRenta);
+
+      return parseFloat((salarioAntesRenta - renta).toFixed(2));
+    }
+
+    function exportarCSV() {
+      const tabla = document.querySelector("table");
+      let csv = "";
+
+      // Extraer los encabezados de la tabla
+      const encabezados = Array.from(tabla.querySelectorAll("thead th"))
+        .map((th) => th.textContent.trim())
+        .filter((header) => header !== "Acciones"); // Opcional: excluir ciertas columnas
+      csv += encabezados.join(",") + "\n";
+
+      // Extraer los datos de cada fila del cuerpo
+      const filas = tabla.querySelectorAll("tbody tr");
+      filas.forEach((fila) => {
+        const datos = Array.from(fila.querySelectorAll("td"))
+          .filter((td, index) => index !== fila.cells.length - 1) // Opcional: excluir columnas como "Acciones"
+          .map((td) => {
+            let texto = td.textContent.trim();
+            if (td.querySelector("input")) {
+              // Obtener el valor de inputs si existen (días vacaciones, aguinaldo)
+              texto =
+                td.querySelector("input").type === "checkbox"
+                  ? td.querySelector("input").checked
+                    ? "Sí"
+                    : "No"
+                  : td.querySelector("input").value;
+            }
+            return texto.replace(/,/g, ""); // Escapar comas en los valores
+          });
+        csv += datos.join(",") + "\n";
+      });
+
+      // Crear y descargar el archivo CSV
+      const blob = new Blob([csv], { type: "text/csv" });
+      const enlace = document.createElement("a");
+      enlace.href = URL.createObjectURL(blob);
+      enlace.download = "empleados.csv";
+      enlace.style.display = "none";
+
+      document.body.appendChild(enlace);
+      enlace.click();
+      document.body.removeChild(enlace);
+    }
+  </script>
+
+  <%- include("../partials/main-close") %> <%- include("../partials/footer") %>
+  <%- include("../partials/body-close") %>
+</html>
